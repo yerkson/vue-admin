@@ -11,18 +11,19 @@ module.exports = {
    **/
   chainWebpack: config => {},
   configureWebpack: config => {
-    config.resolve = { // 配置解析别名
-      extensions: ['.js', '.json', '.vue'],//自动添加文件名后缀
+    config.resolve = {
+      // 配置解析别名
+      extensions: ['.js', '.json', '.vue'], //自动添加文件名后缀
       alias: {
         '@': path.resolve(__dirname, './src'),
-        'public': path.resolve(__dirname, './public'),
-        'components': path.resolve(__dirname, './src/components'),
-        'common': path.resolve(__dirname, './src/common'),
-        'api': path.resolve(__dirname, './src/api'),
-        'views': path.resolve(__dirname, './src/views'),
-        'data': path.resolve(__dirname, './src/data')
-      }
-    }
+        public: path.resolve(__dirname, './public'),
+        components: path.resolve(__dirname, './src/components'),
+        common: path.resolve(__dirname, './src/common'),
+        api: path.resolve(__dirname, './src/api'),
+        views: path.resolve(__dirname, './src/views'),
+        data: path.resolve(__dirname, './src/data'),
+      },
+    };
   },
   // 生产环境是否生成 sourceMap 文件
   productionSourceMap: false,
@@ -51,7 +52,15 @@ module.exports = {
     https: false, // 编译失败时刷新页面
     hot: true, // 开启热加载
     hotOnly: false,
-    proxy: null, // 设置代理
+    proxy: {
+      '/devApi': {
+        target: 'http:www.web-jshtml.cn/productapi', //api服务器地址
+        changeOrigin: true,
+        pathRewrite: {
+          '^/devApi': '',
+        },
+      },
+    }, // 设置代理
     overlay: {
       // 全屏模式下是否显示脚本错误
       warnings: true,
